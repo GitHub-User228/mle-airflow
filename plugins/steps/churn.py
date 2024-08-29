@@ -60,12 +60,18 @@ def create_table(**kwargs) -> None:
 
 
 def extract(**kwargs):
+    """
+    Extracts data from multiple tables in a source PostgreSQL database and
+    pushes the extracted data to the task instance's XCom.
+    """
     hook = PostgresHook("source_db")
     conn = hook.get_conn()
     sql = f"""
         select
-            c.customer_id, c.begin_date, c.end_date, c.type, c.paperless_billing, c.payment_method, c.monthly_charges, c.total_charges,
-            i.internet_service, i.online_security, i.online_backup, i.device_protection, i.tech_support, i.streaming_tv, i.streaming_movies,
+            c.customer_id, c.begin_date, c.end_date, c.type, c.paperless_billing, 
+            c.payment_method, c.monthly_charges, c.total_charges,
+            i.internet_service, i.online_security, i.online_backup, 
+            i.device_protection, i.tech_support, i.streaming_tv, i.streaming_movies,
             p.gender, p.senior_citizen, p.partner, p.dependents,
             ph.multiple_lines
         from contracts as c

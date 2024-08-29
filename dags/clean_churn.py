@@ -100,6 +100,20 @@ def clean_churn_dataset():
 
     @task()
     def transform(data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Transforms the input data by:
+        1. Removing any duplicate rows
+        2. Filtering out rows with values outside the interquartile range (IQR)
+        3. Filling in any missing values
+
+        Args:
+            data (pd.DataFrame):
+                The input data to be transformed.
+
+        Returns:
+            pd.DataFrame:
+                The transformed data.
+        """
         data = remove_duplicates(data)
         data = iqr_filter(data)
         data = fill_missing_values(data)
